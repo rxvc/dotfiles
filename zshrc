@@ -20,6 +20,7 @@ antigen bundle nvm
 antigen bundle python
 antigen bundle tmux
 antigen theme bhilburn/powerlevel9k powerlevel9k
+antigen bundle zsh-users/zsh-autosuggestions
 antigen apply
 
 export TERM='xterm-256color'
@@ -51,8 +52,7 @@ unsetopt auto_name_dirs
 alias emacs='emacs -nw'
 
 #Java export /Library/Java/JavaVirtualMachines/
-export JAVA_HOME=$(/usr/libexec/java_home -v 11)
-#export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
+export JAVA_HOME=${SDKMAN_CANDIDATES_DIR}/java/${CURRENT}
 export PATH=$JAVA_HOME/bin:$PATH
 
 #Terminal Color
@@ -63,8 +63,9 @@ alias ls='ls -GFh'
 
 #Node Version Manager installed with brew install nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
 
 # Load tmux at the beginning
 if [ "$TMUX" = "" ]; then tmux; fi
@@ -88,7 +89,9 @@ alias gst='git status'
 alias gpu='git push'
 alias glog='git log'
 alias gshow='git show'
-
+alias glogs='git log --graph --abbrev-commit --decorate --all --format=format:"%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)"'
+alias multipull="find . -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;"
+alias gitpull="find . -maxdepth 3 -name .git -type d | rev | cut -c 6- | rev | xargs -I {} git -C {} pull"
 #Kubectl alias
 alias k='kubectl'
 alias kcv='kubectl config view'
@@ -98,23 +101,9 @@ alias kcc='kubectl config use-context'
 eval "$(direnv hook zsh)"
 
 #brew install zsh-autosuggestions
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-#brew tap sambadevi/powerlevel9k
-#brew install powerlevel9ksource /usr/local/opt/powerlevel9k/powerlevel9k.zsh-theme
-#source /usr/local/opt/powerlevel9k/powerlevel9k.zsh-theme
-#source /usr/local/opt/powerlevel9k/powerlevel9k.zsh-theme
-
-
-#Set Python 3 as default
-#Install
-#brew install pyenv 
-#pyenv install 3.7.3
-#pyenv global 3.7.3
-#
-#echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.zshrc
-#brew install python =>3
-#brew install python@2 =>2
+#python
 if [ usr/local/bin/python3 ];
 then
   alias python='python3'
@@ -135,7 +124,28 @@ export PATH="$PATH:$HOME/.rvm/bin"
 complete -F __start_kubectl k
 
 #Temporal Kubeconfig
-export KUBECONFIG=/Users/rvallejo/.kube/config:/Users/rvallejo/.kube/config.sandbox:/Users/rvallejo/.kube/config.qa:/Users/rvallejo/.kube/config.preview:/Users/rvallejo/.kube/config.mapi:/Users/rvallejo/.kube/config.nonprod
+#export KUBECONFIG=/Users/rvallejo/.kube/config:/Users/rvallejo/.kube/config.sandbox:/Users/rvallejo/.kube/config.qa:/Users/rvallejo/.kube/config.preview:/Users/rvallejo/.kube/config.mapi:/Users/rvallejo/.kube/config.nonprod
 
 #https://krew.sigs.k8s.io/docs/user-guide/setup/install/
 export PATH="${PATH}:${HOME}/.krew/bin"
+
+alias svim='vim -u ~/.SpaceVim/vimrc'
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+#sudo gem install colorls
+alias ll='colorls -lA --sd --gs --group-directories-first'
+alias ls='colorls --group-directories-first'
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/usr/local/share/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/share/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/local/share/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/share/google-cloud-sdk/completion.zsh.inc'; fi
+
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+#1Password Autocomplete
+eval "$(op completion zsh)"; compdef _op op
