@@ -4,7 +4,7 @@ export TERM='xterm-256color'
 #https://github.com/sevenfoxes/dotfiles/
 #https://github.com/ryanoasis/nerd-fonts
 #https://github.com/zsh-users/antigen
-source /usr/local/share/antigen/antigen.zsh
+source /opt/homebrew/share/antigen/antigen.zsh
 source ~/.dotfiles/.theme
 antigen use oh-my-zsh
 antigen bundle StackExchange/blackbox
@@ -101,7 +101,7 @@ alias kcc='kubectl config use-context'
 eval "$(direnv hook zsh)"
 
 #brew install zsh-autosuggestions
-#source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 #python
 if [ usr/local/bin/python3 ];
