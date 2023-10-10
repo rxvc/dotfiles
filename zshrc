@@ -7,18 +7,6 @@ export TERM='xterm-256color'
 source /opt/homebrew/share/antigen/antigen.zsh
 source ~/.dotfiles/.theme
 antigen use oh-my-zsh
-antigen bundle StackExchange/blackbox
-antigen bundle brew
-antigen bundle command-not-found
-antigen bundle common-aliases
-antigen bundle docker
-antigen bundle docker-compose
-antigen bundle git
-antigen bundle golang
-antigen bundle npm
-antigen bundle nvm
-antigen bundle python
-antigen bundle tmux
 antigen theme bhilburn/powerlevel9k powerlevel9k
 antigen bundle zsh-users/zsh-autosuggestions
 antigen apply
@@ -49,7 +37,7 @@ PROMPT+='%B%F{green}%n%F{green}:%F{blue}%(3~|…|)%2~%F{green} *-> %b%f'
 unsetopt auto_name_dirs
 
 #Alias to start emacs in terminal window
-alias emacs='emacs -nw'
+#alias emacs='emacs -nw'
 
 #Java export /Library/Java/JavaVirtualMachines/
 export JAVA_HOME=${SDKMAN_CANDIDATES_DIR}/java/${CURRENT}
@@ -71,11 +59,14 @@ export NVM_DIR="$HOME/.nvm"
 if [ "$TMUX" = "" ]; then tmux; fi
 
 #Go
-export GOPATH=$HOME/go-workspace # don't forget to change your path correctly!
-export GOROOT=/usr/local/opt/go/libexec
-export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$GOROOT/bin
-export PATH="/usr/local/sbin:$PATH"
+#export GOPATH=$HOME/go
+#export GOROOT=/opt/homebrew/bin/
+#export PATH=$PATH:$GOROOT/bin
+export GOBIN=$GOPATH/bin/
+export GOPROXY=https://goproxy.io,direct
+export GOSUMDB="sum.golang.org"
+export GOSUMDB="gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6"
+export GO111MODULE=on
 
 #Aliases
 
@@ -104,20 +95,22 @@ eval "$(direnv hook zsh)"
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 #python
-if [ usr/local/bin/python3 ];
-then
-  alias python='python3'
-  alias pip='pip3'
-fi
+#if [ usr/local/bin/python3 ];
+#then
+#  alias python='python3'
+#  alias pip='pip3'
+#fi
 
 #Alias for open mac vim outside terminal
-alias mvim="open -a MacVim.app $1"
+#alias mvim="open -a MacVim.app $1"
+alias mvim="/Applications/MacVim.app/Contents/bin/mvim $1"
 
 #brew install fzf 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 #kubectl autocomplate
 [[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
@@ -129,7 +122,7 @@ complete -F __start_kubectl k
 #https://krew.sigs.k8s.io/docs/user-guide/setup/install/
 export PATH="${PATH}:${HOME}/.krew/bin"
 
-alias svim='vim -u ~/.SpaceVim/vimrc'
+#alias svim='vim -u ~/.SpaceVim/vimrc'
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
@@ -149,3 +142,17 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 #1Password Autocomplete
 eval "$(op completion zsh)"; compdef _op op
+
+# Load Angular CLI autocompletion.
+#source <(ng completion script)
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+
+alias kubectl="kubecolor"
+
+# GPG TTY for GPG
+export GPG_TTY=$(tty)

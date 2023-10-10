@@ -1,15 +1,21 @@
 [user]
   name = Rodrigo Vallejo
-  email = rvallejo@thoughtworks.com
+	email = rxvallejoc@gmail.com
 
-[includeIf "gitdir:~/thoughtworks/infoarmor/"]
-    path = ~/infoarmor/.gitconfig
+[includeIf "gitdir:~/rxvallejoc/projects/**/.git"]
+    path = ~/rxvallejoc/projects/.gitconfig-personal
+
+[includeIf "gitdir:~/projects/bancolombia/**/.git"]
+    path = ~/projects/bancolombia/.gitconfig-bancolombia
+
+[includeIf "gitdir:~/projects/tw/**/.git"]
+    path = ~/projects/tw/.gitconfig-tw
 
 [core]
-  autocrlf = false
+	autocrlf = false
   safecrlf = true
   editor = vim
-  excludesfile = /Users/rvallejo/.gitignore_global
+	excludesfile = /Users/rxvallejoc/.gitignore_global
 
 [alias]
   co = checkout
@@ -44,3 +50,8 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
