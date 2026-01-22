@@ -1,47 +1,61 @@
-export TERM='xterm-256color'
-#https://github.com/Powerlevel9k/powerlevel9k/wiki/Install-Instructions#option-4-install-nerd-fonts
-#https://github.com/Powerlevel9k/powerlevel9k/wiki/Show-Off-Your-Config
-#https://github.com/sevenfoxes/dotfiles/
-#https://github.com/ryanoasis/nerd-fonts
-#https://github.com/zsh-users/antigen
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 source /opt/homebrew/share/antigen/antigen.zsh
-source ~/.dotfiles/.theme
+
 antigen use oh-my-zsh
-antigen theme bhilburn/powerlevel9k powerlevel9k
+antigen bundle StackExchange/blackbox
+antigen bundle brew
+antigen bundle command-not-found
+antigen bundle common-aliases
+antigen bundle git
+antigen bundle golang
+antigen bundle npm
+antigen bundle nvm
+antigen bundle python
+antigen bundle tmux
+
+antigen theme romkatv/powerlevel10k
+
 antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
 antigen apply
 
-export TERM='xterm-256color'
-export NCURSES_NO_UTF8_ACS=1
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export EDITOR=vim
 
-setopt histignorealldups share_history prompt_subst
-unsetopt auto_name_dirs
-autoload -Uz compinit
-fpath+=~/.zfunc
-compinit
-bindkey -e
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Allow Ctrl-s in vim
-stty -ixon
+# Load tmux at the beginning
+if [[ -z "$TMUX" && -n "$PS1" && $- == *i* ]]; then
+    exec tmux
+fi
 
-HISTSIZE=10000
-SAVEHIST=10000
+#brew install zsh-autosuggestions
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+#brew install fzf 
+source <(fzf --zsh)
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+#kubectl autocomplate
+[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
+complete -F __start_kubectl k
+
 HISTFILE=~/.zsh_history
-#Prompt color and model
-PROMPT="%F{240}\$(repeat \$COLUMNS printf '·')%f"
-PROMPT+='%B%F{green}%n%F{green}:%F{blue}%(3~|…|)%2~%F{green} *-> %b%f'
-
-unsetopt auto_name_dirs
-
-#Alias to start emacs in terminal window
-#alias emacs='emacs -nw'
 
 #Java export /Library/Java/JavaVirtualMachines/
-export JAVA_HOME=${SDKMAN_CANDIDATES_DIR}/java/${CURRENT}
-export PATH=$JAVA_HOME/bin:$PATH
+# export JAVA_HOME=${SDKMAN_CANDIDATES_DIR}/java/${CURRENT}
+# export PATH=$JAVA_HOME/bin:$PATH
 
 #Terminal Color
 export CLICOLOR=1
@@ -54,19 +68,15 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-
-# Load tmux at the beginning
-if [ "$TMUX" = "" ]; then tmux; fi
-
 #Go
 #export GOPATH=$HOME/go
 #export GOROOT=/opt/homebrew/bin/
 #export PATH=$PATH:$GOROOT/bin
-export GOBIN=$GOPATH/bin/
-export GOPROXY=https://goproxy.io,direct
-export GOSUMDB="sum.golang.org"
-export GOSUMDB="gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6"
-export GO111MODULE=on
+# export GOBIN=$GOPATH/bin/
+# export GOPROXY=https://goproxy.io,direct
+# export GOSUMDB="sum.golang.org"
+# export GOSUMDB="gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6"
+# export GO111MODULE=on
 
 #Aliases
 
@@ -91,9 +101,6 @@ alias kcc='kubectl config use-context'
 #direnv configuration - install brew direnv
 eval "$(direnv hook zsh)"
 
-#brew install zsh-autosuggestions
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
 #python
 #if [ usr/local/bin/python3 ];
 #then
@@ -101,58 +108,31 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 #  alias pip='pip3'
 #fi
 
-#Alias for open mac vim outside terminal
-#alias mvim="open -a MacVim.app $1"
-alias mvim="/Applications/MacVim.app/Contents/bin/mvim $1"
-
-#brew install fzf 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-#kubectl autocomplate
-[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
-complete -F __start_kubectl k
-
-#Temporal Kubeconfig
-#export KUBECONFIG=/Users/rvallejo/.kube/config:/Users/rvallejo/.kube/config.sandbox:/Users/rvallejo/.kube/config.qa:/Users/rvallejo/.kube/config.preview:/Users/rvallejo/.kube/config.mapi:/Users/rvallejo/.kube/config.nonprod
-
-#https://krew.sigs.k8s.io/docs/user-guide/setup/install/
-export PATH="${PATH}:${HOME}/.krew/bin"
-
-#alias svim='vim -u ~/.SpaceVim/vimrc'
-
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+#export SDKMAN_DIR="$HOME/.sdkman"
+#[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 #sudo gem install colorls
-alias ll='colorls -lA --sd --gs --group-directories-first'
-alias ls='colorls --group-directories-first'
+#alias ll='colorls -lA --sd --gs --group-directories-first'
+#alias ls='colorls --group-directories-first'
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/usr/local/share/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/share/google-cloud-sdk/path.zsh.inc'; fi
+#if [ -f '/usr/local/share/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/share/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/usr/local/share/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/share/google-cloud-sdk/completion.zsh.inc'; fi
+#if [ -f '/usr/local/share/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/share/google-cloud-sdk/completion.zsh.inc'; fi
 
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+#export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 #1Password Autocomplete
-eval "$(op completion zsh)"; compdef _op op
+#eval "$(op completion zsh)"; compdef _op op
 
 # Load Angular CLI autocompletion.
 #source <(ng completion script)
 
-
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-
-alias kubectl="kubecolor"
+#export PYENV_ROOT="$HOME/.pyenv"
+#command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+#eval "$(pyenv init -)"
 
 # GPG TTY for GPG
-export GPG_TTY=$(tty)
+#export GPG_TTY=$(tty)

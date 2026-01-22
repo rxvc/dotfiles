@@ -40,9 +40,9 @@ function developer_setup() {
     echo "⚠️  brew could not be found"
     echo "Installing homebrew"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /Users/rxvallejoc/.zprofile
-    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/rxvallejoc/.zprofile
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+    echo >> /Users/rvallejo/.zprofile
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv zsh)"' >> /Users/rvallejo/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv zsh)"
   else
     echo "Homebrew already installed"
   fi
@@ -64,15 +64,23 @@ function developer_setup() {
   brew_install "docker"
   brew_install "colima"
   brew_install "antigen"
-  
+  brew_install "pyenv"
+  brew_install "nvim"
+  brew_install "gpg"
+  brew_install "gcc"
+  brew_install "tree-sitter"
+  brew_install "ripgreg"
+  brew_install "fd"
+  brew_install "lazygit"
+
   brew_install_cask "iterm2"
+  brew_install_cask "ghostty"
   brew_install_cask "macvim"
   brew_install_cask "visual-studio-code"
   brew_install_cask "google-chrome"
   brew_install_cask "firefox"
-  brew_install_cask "firefox-developer-edition"
   brew_install_cask "dbeaver-community"
-  brew_install_cask "lens"
+  brew_install_cask "openlens"
   brew_install_cask "postman"
   brew_install_cask "1password/tap/1password-cli"
 
@@ -80,7 +88,6 @@ function developer_setup() {
   echo "⭐️ checking for font-hack-nerd-font..."
   if [[ -z `brew list --cask --versions font-hack-nerd-font` ]]; then
     echo "Installing font-hack-nerd-font"
-    brew tap homebrew/cask-fonts
     brew install --cask font-hack-nerd-font
   else
     echo "font-hack-nerd-font already installed"
