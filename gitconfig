@@ -12,7 +12,7 @@
     path = ~/projects/tw/.gitconfig-tw
 
 [core]
-	autocrlf = false
+	autocrlf = true
   safecrlf = true
   editor = vim
 	excludesfile = /Users/rxvallejoc/.gitignore_global
@@ -34,7 +34,6 @@
 
 [github]
   user = rxvc
-#user = rvallejoinfoarmor
 
 [push]
   default = tracking
