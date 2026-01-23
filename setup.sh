@@ -69,9 +69,10 @@ function developer_setup() {
   brew_install "gpg"
   brew_install "gcc"
   brew_install "tree-sitter"
-  brew_install "ripgreg"
+  brew_install "ripgrep"
   brew_install "fd"
   brew_install "lazygit"
+  brew_install "kind"
 
   brew_install_cask "iterm2"
   brew_install_cask "ghostty"

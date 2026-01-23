@@ -3,7 +3,10 @@
 	email = rxvallejoc@gmail.com
 
 [includeIf "gitdir:~/rxvallejoc/projects/**/.git"]
-    path = ~/rxvallejoc/projects/.gitconfig-personal
+  path = ~/rxvallejoc/projects/.gitconfig-personal
+
+[includeIf "gitdir:~/projects/rxvc/**/.git"]
+  path = ~/rxvallejoc/projects/.gitconfig-personal
 
 [includeIf "gitdir:~/projects/bancolombia/**/.git"]
     path = ~/projects/bancolombia/.gitconfig-bancolombia
@@ -11,8 +14,11 @@
 [includeIf "gitdir:~/projects/tw/**/.git"]
     path = ~/projects/tw/.gitconfig-tw
 
+[includeIf "gitdir:~/projects/ipsos/**/.git"]
+    path = ~/projects/ipsos/.gitconfig-ipsos
+
 [core]
-	autocrlf = true
+	autocrlf = input
   safecrlf = true
   editor = vim
 	excludesfile = /Users/rxvallejoc/.gitignore_global
@@ -34,6 +40,7 @@
 
 [github]
   user = rxvc
+#user = rvallejoinfoarmor
 
 [push]
   default = tracking
@@ -54,3 +61,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[init]
+	defaultBranch = main

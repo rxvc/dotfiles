@@ -6,11 +6,12 @@ Remember to symlink the config files and directories:
 
 - `ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf`
 - `ln -s ~/.dotfiles/zshrc ~/.zshrc`
+- `ln -s ~/.dotfiles/.p10k.zsh ~/.p10k.zsh`
 - `ln -s ~/.dotfiles/vim ~/.vim`
 - `ln -s ~/.dotfiles/vim/vimrc ~/.vimrc`
 - `ln -s ~/.dotfiles/gitconfig ~/.gitconfig`
 - `ln -s ~/.dotfiles/vim/gvimrc ~/.vgimrc`
-- `ln -s ~/.dotfiles/emacs.d ~/.emacs.d`
+
 
 If your using MacOS to use zsh as default bash:
 `sudo dscl . -create /Users/$USER UserShell /usr/local/bin/zsh`
