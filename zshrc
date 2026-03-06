@@ -5,25 +5,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-source /opt/homebrew/share/antigen/antigen.zsh
-
-antigen use oh-my-zsh
-antigen bundle StackExchange/blackbox
-antigen bundle brew
-antigen bundle command-not-found
-antigen bundle common-aliases
-antigen bundle git
-antigen bundle golang
-antigen bundle npm
-antigen bundle nvm
-antigen bundle python
-antigen bundle tmux
-
-antigen theme romkatv/powerlevel10k
-
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen apply
+# source antidote
+source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
+antidote load
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -34,7 +18,7 @@ export EDITOR=vim
 
 # Load tmux at the beginning
 if [[ -z "$TMUX" && -n "$PS1" && $- == *i* ]]; then
-    exec tmux
+    tmux new-session -A -s main
 fi
 
 #brew install zsh-autosuggestions
@@ -47,9 +31,9 @@ source <(fzf --zsh)
 export PATH="$PATH:$HOME/.rvm/bin"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-#kubectl autocomplate
-[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
-complete -F __start_kubectl k
+# #kubectl autocomplate
+# [[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
+# complete -F __start_kubectl k
 
 HISTFILE=~/.zsh_history
 

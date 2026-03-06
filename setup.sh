@@ -63,7 +63,7 @@ function developer_setup() {
   brew_install "jq"
   brew_install "docker"
   brew_install "colima"
-  brew_install "antigen"
+  brew_install "antidote"
   brew_install "pyenv"
   brew_install "nvim"
   brew_install "gpg"

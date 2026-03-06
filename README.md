@@ -11,6 +11,7 @@ Remember to symlink the config files and directories:
 - `ln -s ~/.dotfiles/vim/vimrc ~/.vimrc`
 - `ln -s ~/.dotfiles/gitconfig ~/.gitconfig`
 - `ln -s ~/.dotfiles/vim/gvimrc ~/.vgimrc`
+- `ln -s ~/.dotfiles/.zsh_plugins.txt ~/.zsh_plugins.txt`
 
 
 If your using MacOS to use zsh as default bash:
