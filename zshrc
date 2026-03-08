@@ -5,9 +5,28 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# source antidote
-source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
-antidote load
+# ${ZDOTDIR:-~}/.zshrc
+
+# Set the root name of the plugins files (.txt and .zsh) antidote will use.
+zsh_plugins=${ZDOTDIR:-~}/.zsh_plugins
+
+# Ensure the .zsh_plugins.txt file exists so you can add plugins.
+[[ -f ${zsh_plugins}.txt ]] || touch ${zsh_plugins}.txt
+
+# Lazy-load antidote from its functions directory (Homebrew on Apple Silicon).
+fpath=(/opt/homebrew/share/antidote/functions $fpath)
+autoload -Uz antidote
+
+# Generate a new static file whenever .zsh_plugins.txt is updated.
+if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
+  antidote bundle <${zsh_plugins}.txt >|${zsh_plugins}.zsh
+fi
+
+# Initialize completions before sourcing plugins (fixes compdef errors).
+autoload -Uz compinit && compinit
+
+# Source your static plugins file.
+source ${zsh_plugins}.zsh
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -21,50 +40,28 @@ if [[ -z "$TMUX" && -n "$PS1" && $- == *i* ]]; then
     tmux new-session -A -s main
 fi
 
-#brew install zsh-autosuggestions
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-#brew install fzf 
+# fzf keybindings and completions (brew install fzf)
 source <(fzf --zsh)
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-# #kubectl autocomplate
-# [[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
-# complete -F __start_kubectl k
-
 HISTFILE=~/.zsh_history
 
-#Java export /Library/Java/JavaVirtualMachines/
-# export JAVA_HOME=${SDKMAN_CANDIDATES_DIR}/java/${CURRENT}
-# export PATH=$JAVA_HOME/bin:$PATH
-
-#Terminal Color
+# Terminal Color
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 alias ls='ls -GFh'
 
-
-#Node Version Manager installed with brew install nvm
+# Node Version Manager installed with brew install nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
-#Go
-#export GOPATH=$HOME/go
-#export GOROOT=/opt/homebrew/bin/
-#export PATH=$PATH:$GOROOT/bin
-# export GOBIN=$GOPATH/bin/
-# export GOPROXY=https://goproxy.io,direct
-# export GOSUMDB="sum.golang.org"
-# export GOSUMDB="gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6"
-# export GO111MODULE=on
+# Aliases
 
-#Aliases
-
-#Git
+# Git
 alias gp='git pull'
 alias gpr='git pull --rebase'
 alias gcm='git commit -m'
@@ -77,46 +74,11 @@ alias gshow='git show'
 alias glogs='git log --graph --abbrev-commit --decorate --all --format=format:"%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)"'
 alias multipull="find . -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;"
 alias gitpull="find . -maxdepth 3 -name .git -type d | rev | cut -c 6- | rev | xargs -I {} git -C {} pull"
-#Kubectl alias
+
+# Kubectl
 alias k='kubectl'
 alias kcv='kubectl config view'
 alias kcc='kubectl config use-context'
 
-#direnv configuration - install brew direnv
+# direnv (brew install direnv)
 eval "$(direnv hook zsh)"
-
-#python
-#if [ usr/local/bin/python3 ];
-#then
-#  alias python='python3'
-#  alias pip='pip3'
-#fi
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-#export SDKMAN_DIR="$HOME/.sdkman"
-#[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-#sudo gem install colorls
-#alias ll='colorls -lA --sd --gs --group-directories-first'
-#alias ls='colorls --group-directories-first'
-
-# The next line updates PATH for the Google Cloud SDK.
-#if [ -f '/usr/local/share/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/share/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-#if [ -f '/usr/local/share/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/share/google-cloud-sdk/completion.zsh.inc'; fi
-
-#export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-
-#1Password Autocomplete
-#eval "$(op completion zsh)"; compdef _op op
-
-# Load Angular CLI autocompletion.
-#source <(ng completion script)
-
-#export PYENV_ROOT="$HOME/.pyenv"
-#command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-#eval "$(pyenv init -)"
-
-# GPG TTY for GPG
-#export GPG_TTY=$(tty)

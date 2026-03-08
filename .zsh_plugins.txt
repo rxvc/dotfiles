@@ -1,9 +1,18 @@
-zsh-users/zsh-autosuggestions
-zsh-users/zsh-syntax-highlighting
-zsh-users/zsh-completions
-getantidote/use-omz
+# Completions (fpath only, loaded early)
+zsh-users/zsh-completions kind:fpath
+
+# OMZ lib must load before use-omz and OMZ plugins
 ohmyzsh/ohmyzsh path:lib
+getantidote/use-omz
+
+# OMZ plugins
 ohmyzsh/ohmyzsh path:plugins/rails
 ohmyzsh/ohmyzsh path:plugins/git
 ohmyzsh/ohmyzsh path:plugins/bundler
+
+# Theme
 romkatv/powerlevel10k
+
+# These should be near the end
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-syntax-highlighting
