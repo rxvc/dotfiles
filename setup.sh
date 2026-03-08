@@ -73,6 +73,12 @@ function developer_setup() {
   brew_install "fd"
   brew_install "lazygit"
   brew_install "kind"
+  brew_install "bat"
+  brew_install "eza"
+  brew_install "zoxide"
+  brew_install "git-delta"
+  brew_install "atuin"
+  brew_install "gh"
 
   brew_install_cask "iterm2"
   brew_install_cask "ghostty"

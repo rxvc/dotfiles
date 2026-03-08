@@ -22,6 +22,7 @@
   safecrlf = true
   editor = vim
 	excludesfile = /Users/rxvallejoc/.gitignore_global
+  pager = delta
 
 [alias]
   co = checkout
@@ -63,3 +64,18 @@
 	required = true
 [init]
 	defaultBranch = main
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    light = false
+    side-by-side = true
+    line-numbers = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default

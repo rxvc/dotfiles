@@ -38,8 +38,23 @@ export EDITOR=vim
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# fzf-tab: show file previews in completions
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons --tree --level=2 $realpath 2>/dev/null || ls $realpath'
+zstyle ':fzf-tab:complete:bat:*' fzf-preview 'bat --color=always --style=numbers $realpath 2>/dev/null'
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
 # fzf keybindings and completions (brew install fzf)
 source <(fzf --zsh)
+
+# zoxide — smarter cd (brew install zoxide)
+command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
+
+# atuin — better shell history (brew install atuin)
+command -v atuin &>/dev/null && eval "$(atuin init zsh)"
+
+# gh — GitHub CLI completions
+command -v gh &>/dev/null && eval "$(gh completion -s zsh)"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
@@ -59,7 +74,18 @@ setopt HIST_REDUCE_BLANKS     # Remove extra whitespace
 # Terminal Color
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
-alias ls='ls -GFh'
+
+# eza replaces ls (brew install eza)
+if command -v eza &>/dev/null; then
+  alias ls='eza --icons --group-directories-first'
+  alias ll='eza --icons --group-directories-first -la'
+  alias lt='eza --icons --tree --level=2'
+else
+  alias ls='ls -GFh'
+fi
+
+# bat replaces cat (brew install bat)
+command -v bat &>/dev/null && alias cat='bat --paging=never'
 
 # Lazy NVM — loads on first use of nvm, node, npm, npx
 export NVM_DIR="$HOME/.nvm"

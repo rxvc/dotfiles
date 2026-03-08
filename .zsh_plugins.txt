@@ -17,5 +17,7 @@ ohmyzsh/ohmyzsh path:plugins/bundler
 romkatv/powerlevel10k
 
 # These should be near the end — deferred for faster startup
+Aloxaf/fzf-tab kind:defer
+wfxr/forgit kind:defer
 zsh-users/zsh-autosuggestions kind:defer
 zsh-users/zsh-syntax-highlighting kind:defer
