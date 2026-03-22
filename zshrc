@@ -51,7 +51,7 @@ source <(fzf --zsh)
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 
 # atuin — better shell history (brew install atuin)
-command -v atuin &>/dev/null && eval "$(atuin init zsh)"
+#command -v atuin &>/dev/null && eval "$(atuin init zsh)"
 
 # gh — GitHub CLI completions
 command -v gh &>/dev/null && eval "$(gh completion -s zsh)"
@@ -119,6 +119,9 @@ alias gitpull="find . -maxdepth 3 -name .git -type d | rev | cut -c 6- | rev | x
 alias k='kubectl'
 alias kcv='kubectl config view'
 alias kcc='kubectl config use-context'
+
+alias python="python3"
+alias pip="pip3"
 
 # direnv (brew install direnv)
 eval "$(direnv hook zsh)"
