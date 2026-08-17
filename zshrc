@@ -1,6 +1,14 @@
-# Load tmux at the beginning (must be before p10k instant prompt)
+# Load tmux at the beginning (must be before p10k instant prompt).
+# One tmux session per shell, prefixed by terminal app so sessions stay isolated
+# across Ghostty / VSCode / others and don't pile up under a shared name.
 if [[ -z "$TMUX" && -n "$PS1" && $- == *i* ]]; then
-    tmux new-session -A -s main
+    case "$TERM_PROGRAM" in
+        ghostty) _tmux_prefix=ghostty ;;
+        vscode)  _tmux_prefix=vscode ;;
+        *)       _tmux_prefix=term ;;
+    esac
+    tmux new-session -s "${_tmux_prefix}-$$"
+    unset _tmux_prefix
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
