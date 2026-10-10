@@ -15,6 +15,7 @@ ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/.dotfiles/zshrc ~/.zshrc
 ln -s ~/.dotfiles/gitconfig ~/.gitconfig
 ln -s ~/.dotfiles/.zsh_plugins.txt ~/.zsh_plugins.txt
+ln -s ~/.dotfiles/statusline.sh ~/.claude/statusline.sh
 ```
 
 The `.zsh_plugins.txt` file (not tracked here — lives in `$HOME`) defines plugins for [antidote](https://getantidote.github.io/), which auto-compiles them to `~/.zsh_plugins.zsh` on first load.
@@ -26,6 +27,7 @@ The `.zsh_plugins.txt` file (not tracked here — lives in `$HOME`) defines plug
 | `zshrc` | Shell config: antidote plugins, aliases, lazy NVM, fzf, zoxide, direnv |
 | `tmux.conf` | Tmux config: prefix is `Ctrl-z`, vim-style pane navigation, mouse on |
 | `gitconfig` | Git config: delta pager, conditional includes per work context, aliases |
+| `statusline.sh` | Claude Code status line: model, dir, git branch, context bar, cost, duration |
 | `setup.sh` | Idempotent Homebrew installer for all tools and casks |
 
 ## Architecture Notes

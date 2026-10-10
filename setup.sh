@@ -9,7 +9,7 @@ function brew_install() {
   echo "⭐️ checking for $1..."
   if [[ -z `brew list --versions $1` ]]; then
     echo "Installing $1"
-    brew install $1
+    brew install -y $1
   else
     echo "$1 already installed"
   fi
@@ -19,7 +19,7 @@ function brew_install_cask() {
   echo "⭐️ checking for $1..."
   if [[ -z `brew list --cask --versions $1` ]]; then
     echo "Installing $1"
-    brew install --cask $1
+    brew install  -y --cask $1
   else
     echo "$1 already installed"
   fi
@@ -79,6 +79,8 @@ function developer_setup() {
   brew_install "git-delta"
   brew_install "atuin"
   brew_install "gh"
+  brew_install "mas"
+  brew_install "tfenv"
 
   brew_install_cask "iterm2"
   brew_install_cask "ghostty"
@@ -89,6 +91,8 @@ function developer_setup() {
   brew_install_cask "dbeaver-community"
   brew_install_cask "openlens"
   brew_install_cask "postman"
+  brew_install_cask "rectangle"
+  brew_install_cask "obsidian"
   brew_install_cask "1password/tap/1password-cli"
 
 
